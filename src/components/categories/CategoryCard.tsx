@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 type CategoryProps = {
-  title: String;
+  title: string;
   // TODO add image prop
 };
 

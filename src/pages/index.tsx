@@ -1,11 +1,11 @@
 import * as React from 'react';
 
+import { CategoryCard } from '@/components/categories/CategoryCard';
 import Layout from '@/components/layout/Layout';
 import ButtonLink from '@/components/links/ButtonLink';
 import CustomLink from '@/components/links/CustomLink';
-import UnstyledLink from '@/components/links/UnstyledLink';
 import Seo from '@/components/Seo';
-import { CategoryCard } from '@/components/categories/CategoryCard';
+
 import { categories } from './api/categories';
 
 // !STARTERCONF -> Select !STARTERCONF and CMD + SHIFT + F
@@ -30,7 +30,7 @@ export default function HomePage() {
               <h2>Browse Tamil Businesses by category</h2>
               <div className='grid grid-cols-4 gap-4 mt-4'>
                 {categories.map((category, index) => (
-                  <CategoryCard title={category} />
+                  <CategoryCard key={index} title={category} />
                 ))}
               </div>
             </div>
