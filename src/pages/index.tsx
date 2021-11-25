@@ -46,7 +46,7 @@ export default function HomePage() {
                 <input
                   className='w-full h-10 pl-3 pr-8 text-base placeholder-gray-600 border rounded-lg focus:shadow-outline'
                   type='text'
-                  placeholder='Regular input'
+                  placeholder=''
                   onChange={(e) => {
                     let value = e.target.value;
                     if (value == '') {
