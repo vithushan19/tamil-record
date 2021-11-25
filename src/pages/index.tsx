@@ -6,7 +6,7 @@ import ButtonLink from '@/components/links/ButtonLink';
 import CustomLink from '@/components/links/CustomLink';
 import Seo from '@/components/Seo';
 
-import { categories } from './api/categories';
+import { categories, categories_photos } from './api/categories';
 
 // !STARTERCONF -> Select !STARTERCONF and CMD + SHIFT + F
 // Before you begin editing, follow all comments with `STARTERCONF`,
@@ -30,7 +30,11 @@ export default function HomePage() {
               <h2>Browse Tamil Businesses by category</h2>
               <div className='grid grid-cols-4 gap-4 mt-4'>
                 {categories.map((category, index) => (
-                  <CategoryCard key={index} title={category} />
+                  <CategoryCard
+                    key={index}
+                    title={category}
+                    image_path={categories_photos[index]}
+                  />
                 ))}
               </div>
             </div>
@@ -39,12 +43,12 @@ export default function HomePage() {
               See all components
             </ButtonLink>
 
-            <footer className='absolute text-gray-500 bottom-2'>
+            <div>
               © {new Date().getFullYear()} By{' '}
               <CustomLink href='https://theodorusclarence.com?ref=tsnextstarter'>
                 Ajevan Mahadaya
               </CustomLink>
-            </footer>
+            </div>
           </div>
         </section>
       </main>
