@@ -1,4 +1,8 @@
-export const searchResults = [
+export type BusinessListing = {
+  name: string;
+};
+
+export const searchResults: BusinessListing[] = [
   { name: 'adri' },
   { name: 'becky' },
   { name: 'chris' },

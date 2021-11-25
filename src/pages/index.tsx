@@ -8,7 +8,7 @@ import CustomLink from '@/components/links/CustomLink';
 import Seo from '@/components/Seo';
 
 import { categories, categories_photos } from './api/categories';
-import { searchResults } from './api/search_results';
+import { BusinessListing, searchResults } from './api/search_results';
 
 // !STARTERCONF -> Select !STARTERCONF and CMD + SHIFT + F
 // Before you begin editing, follow all comments with `STARTERCONF`,
@@ -17,7 +17,7 @@ import { searchResults } from './api/search_results';
 export default function HomePage() {
   const [searchList, setSearchList] = useState<string[]>([]);
 
-  const setList = (results: { name: string }[]) => {
+  const setList = (results: BusinessListing[]) => {
     const editedSearchList = [];
     if (results.length == 0) {
       editedSearchList.push('No results found!');
@@ -55,10 +55,10 @@ export default function HomePage() {
                     if (value && value.trim().length > 0) {
                       value = value.trim().toLowerCase();
 
-                      //returning only the results of setList if the value of the search is included in the person's name
+                      //returning only the results of setList if the value of the search is included in the business' name
                       setList(
-                        searchResults.filter((person) => {
-                          return person.name.includes(e.target.value);
+                        searchResults.filter((business) => {
+                          return business.name.includes(value);
                         })
                       );
                     }
