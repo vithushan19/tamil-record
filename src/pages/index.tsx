@@ -1,5 +1,3 @@
-import Airtable from 'airtable';
-import axios from 'axios';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
@@ -13,22 +11,11 @@ import { categories, categories_photos } from './api/categories';
 // Import the function so that it can be called
 import { getData } from './api/search_results';
 
-const API_KEY = 'keyIoP5Idk5C4GiUh';
-const BASE_ID = 'app0iXbbgdr96zkwt';
-//create a new Airtable object in React
-new Airtable({ apiKey: API_KEY }).base(BASE_ID);
-//base endpoint to call with each request
-axios.defaults.baseURL =
-  'https://api.airtable.com/v0/' + BASE_ID + '/TamilRecord/';
-//content type to send with all POST requests
-axios.defaults.headers.post['Content-Type'] = 'application/json';
-//authenticate to the base with the API key
-axios.defaults.headers.common['Authorization'] = 'Bearer ' + API_KEY;
-
 // !STARTERCONF -> Select !STARTERCONF and CMD + SHIFT + F
 // Before you begin editing, follow all comments with `STARTERCONF`,
 // to customize the default configuration.
 
+///Pass in the data from staticProps once implemented
 export default function HomePage() {
   //Create a state variable for the function in search_results, intialized to empty array, then use this in the filter function
   const [businessData, setBusinessData] = useState<string[]>([]);
@@ -37,14 +24,11 @@ export default function HomePage() {
   //setData(getData()); and wrap this in a useEffect
   //In case the above doesn't work, set the getData in a variable and then call the variable in setData function
 
+  //If getStaticProps is defined, this is not needed
   useEffect(() => {
     async function onPageLoad() {
       const dataFromAxios = await getData();
-      const businessNameData = new Array<string>();
-      for (let i = 0; i < dataFromAxios.length; i++) {
-        businessNameData.push(dataFromAxios[i].fields.Name);
-      }
-      setBusinessData(businessNameData);
+      setBusinessData(dataFromAxios as string[]);
     }
     onPageLoad();
   }, []);
@@ -142,4 +126,6 @@ export default function HomePage() {
       </main>
     </Layout>
   );
+
+  //add getsTATIC props function similar to dashboard in Math Champs and test it out there, return data to above function
 }
