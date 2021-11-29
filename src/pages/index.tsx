@@ -44,11 +44,9 @@ export default function HomePage() {
       for (let i = 0; i < dataFromAxios.length; i++) {
         businessNameData.push(dataFromAxios[i].fields.Name);
       }
-      console.log(businessNameData);
       setBusinessData(businessNameData);
     }
     onPageLoad();
-    //console.log(businessData);
   }, []);
 
   const setList = (results: string[]) => {
@@ -60,7 +58,6 @@ export default function HomePage() {
         editedSearchList[i] = results[i];
       }
     }
-    console.log(editedSearchList);
     setSearchList(editedSearchList);
   };
 
