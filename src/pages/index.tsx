@@ -1,5 +1,7 @@
+import Airtable from 'airtable';
+import axios from 'axios';
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { CategoryCard } from '@/components/categories/CategoryCard';
 import Layout from '@/components/layout/Layout';
@@ -8,26 +10,60 @@ import CustomLink from '@/components/links/CustomLink';
 import Seo from '@/components/Seo';
 
 import { categories, categories_photos } from './api/categories';
-import { BusinessListing, searchResults } from './api/search_results';
+// Import the function so that it can be called
+import { getData } from './api/search_results';
+
+const API_KEY = 'keyIoP5Idk5C4GiUh';
+const BASE_ID = 'app0iXbbgdr96zkwt';
+//create a new Airtable object in React
+new Airtable({ apiKey: API_KEY }).base(BASE_ID);
+//base endpoint to call with each request
+axios.defaults.baseURL =
+  'https://api.airtable.com/v0/' + BASE_ID + '/TamilRecord/';
+//content type to send with all POST requests
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+//authenticate to the base with the API key
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + API_KEY;
 
 // !STARTERCONF -> Select !STARTERCONF and CMD + SHIFT + F
 // Before you begin editing, follow all comments with `STARTERCONF`,
 // to customize the default configuration.
 
 export default function HomePage() {
+  //Create a state variable for the function in search_results, intialized to empty array, then use this in the filter function
+  const [businessData, setBusinessData] = useState<string[]>([]);
   const [searchList, setSearchList] = useState<string[]>([]);
 
-  const setList = (results: BusinessListing[]) => {
+  //setData(getData()); and wrap this in a useEffect
+  //In case the above doesn't work, set the getData in a variable and then call the variable in setData function
+
+  useEffect(() => {
+    async function onPageLoad() {
+      const dataFromAxios = await getData();
+      const businessNameData = new Array<string>();
+      for (let i = 0; i < dataFromAxios.length; i++) {
+        businessNameData.push(dataFromAxios[i].fields.Name);
+      }
+      console.log(businessNameData);
+      setBusinessData(businessNameData);
+    }
+    onPageLoad();
+    //console.log(businessData);
+  }, []);
+
+  const setList = (results: string[]) => {
     const editedSearchList = [];
     if (results.length == 0) {
       editedSearchList.push('No results found!');
     } else {
       for (let i = 0; i < results.length; i++) {
-        editedSearchList[i] = results[i].name;
+        editedSearchList[i] = results[i];
       }
     }
+    console.log(editedSearchList);
     setSearchList(editedSearchList);
   };
+
   return (
     <Layout>
       {/* <Seo templateTitle='Home' /> */}
@@ -57,8 +93,11 @@ export default function HomePage() {
 
                       //returning only the results of setList if the value of the search is included in the business' name
                       setList(
-                        searchResults.filter((business) => {
-                          return business.name.includes(value);
+                        //change the filter function to use strings rather than the custom type
+                        businessData.filter((business) => {
+                          return business
+                            .toLowerCase()
+                            .includes(value.toLowerCase());
                         })
                       );
                     }
