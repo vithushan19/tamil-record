@@ -7,24 +7,15 @@ import ButtonLink from '@/components/links/ButtonLink';
 import CustomLink from '@/components/links/CustomLink';
 import Seo from '@/components/Seo';
 
-// Import the function so that it can be called
 import { getData } from '../api/search_results';
-
-// !STARTERCONF -> Select !STARTERCONF and CMD + SHIFT + F
-// Before you begin editing, follow all comments with `STARTERCONF`,
-// to customize the default configuration.
 
 ///Pass in the data from staticProps once implemented
 export default function CategoryPage() {
   const router = useRouter();
   const category = router.query.slug;
 
-  //Create a state variable for the function in search_results, intialized to empty array, then use this in the filter function
   const [businessData, setBusinessData] = useState<string[]>([]);
   const [searchList, setSearchList] = useState<string[]>([]);
-
-  //setData(getData()); and wrap this in a useEffect
-  //In case the above doesn't work, set the getData in a variable and then call the variable in setData function
 
   //If getStaticProps is defined, this is not needed
   useEffect(() => {
