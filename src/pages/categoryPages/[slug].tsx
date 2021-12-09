@@ -1,17 +1,19 @@
+import { useRouter } from 'next/router';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
-import { CategoryCard } from '@/components/categories/CategoryCard';
 import Layout from '@/components/layout/Layout';
 import ButtonLink from '@/components/links/ButtonLink';
 import CustomLink from '@/components/links/CustomLink';
 import Seo from '@/components/Seo';
 
-import { categories, categories_photos } from './api/categories';
-import { getData } from './api/search_results';
+import { getData } from '../api/search_results';
 
 ///Pass in the data from staticProps once implemented
-export default function HomePage() {
+export default function CategoryPage() {
+  const router = useRouter();
+  const category = router.query.slug;
+
   const [businessData, setBusinessData] = useState<string[]>([]);
   const [searchList, setSearchList] = useState<string[]>([]);
 
@@ -46,8 +48,7 @@ export default function HomePage() {
           <div className='flex flex-col items-center justify-center min-h-screen text-center text-white layout'>
             <h1>Tamil Record</h1>
             <p className='mt-2 text-sm text-gray-300'>
-              A site that allows people to find local tamil businesses around
-              them{' '}
+              Welcome to the {category} page!
             </p>
             <div className='flex flex-col mt-12'>
               <div className='relative text-gray-700'>
@@ -89,20 +90,6 @@ export default function HomePage() {
               </ul>
             </div>
 
-            <div className='mt-12'>
-              <h2>Browse Tamil Businesses by category</h2>
-              <div className='grid grid-cols-4 gap-4 mt-4'>
-                {categories.map((category, index) => (
-                  <CategoryCard
-                    key={index}
-                    title={category}
-                    image_path={categories_photos[index]}
-                    route_path={'/categoryPages/' + category}
-                  />
-                ))}
-              </div>
-            </div>
-
             <ButtonLink className='mt-6' href='/components' variant='light'>
               See all components
             </ButtonLink>
@@ -118,6 +105,4 @@ export default function HomePage() {
       </main>
     </Layout>
   );
-
-  //add getsTATIC props function similar to dashboard in Math Champs and test it out there, return data to above function
 }
