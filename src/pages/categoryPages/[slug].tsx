@@ -8,11 +8,7 @@ import ButtonLink from '@/components/links/ButtonLink';
 import CustomLink from '@/components/links/CustomLink';
 import Seo from '@/components/Seo';
 
-import {
-  categories,
-  categories_photos,
-  category_specific_photos,
-} from '../api/categories';
+import { category_specific_photos } from '../api/categories';
 import { getCategoryData, getData } from '../api/search_results';
 
 ///Pass in the data from staticProps once implemented
@@ -35,7 +31,7 @@ export default function CategoryPage() {
       setBusinessByCategoryData(dataFromAxios2 as string[]);
     }
     onPageLoad();
-  }, []);
+  }, [categoryPageName]);
 
   const setList = (results: string[]) => {
     const editedSearchList = [];
