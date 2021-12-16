@@ -31,3 +31,27 @@ export const categories_photos = [
   '/images/Banquet_Hall.jpeg',
   '/images/Bakers.jpeg',
 ];
+
+export const category_specific_photos = (category: string) => {
+  console.log(category);
+  if (category === 'Clothes and Fashion') {
+    category = 'Fashion';
+  }
+  if (category === 'Decor and Flowers') {
+    category = 'Decor';
+  }
+  if (category === 'Banquet Halls') {
+    category = 'Banquet_Hall';
+  }
+  if (category === 'Event Planner') {
+    category = 'Event_Planning';
+  }
+  if (category === 'Make-up and Hair') {
+    category = 'Makeup_Hair';
+  }
+  if (category === 'Grocery Store') {
+    category = 'Groceries';
+  }
+  const image_path = '/images/' + category + '.jpeg';
+  return image_path;
+};
