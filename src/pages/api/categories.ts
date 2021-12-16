@@ -33,7 +33,6 @@ export const categories_photos = [
 ];
 
 export const category_specific_photos = (category: string) => {
-  console.log(category);
   if (category === 'Clothes and Fashion') {
     category = 'Fashion';
   }

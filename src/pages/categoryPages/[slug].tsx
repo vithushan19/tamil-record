@@ -32,7 +32,6 @@ export default function CategoryPage() {
       const dataFromAxios = await getData();
       setBusinessData(dataFromAxios as string[]);
       const dataFromAxios2 = await getCategoryData(categoryPageName as string);
-      console.log(dataFromAxios2);
       setBusinessByCategoryData(dataFromAxios2 as string[]);
     }
     onPageLoad();
