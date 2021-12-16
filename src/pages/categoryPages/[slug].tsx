@@ -2,19 +2,24 @@ import { useRouter } from 'next/router';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
+import { CategoryCard } from '@/components/categories/CategoryCard';
 import Layout from '@/components/layout/Layout';
 import ButtonLink from '@/components/links/ButtonLink';
 import CustomLink from '@/components/links/CustomLink';
 import Seo from '@/components/Seo';
 
-import { getData } from '../api/search_results';
+import { category_specific_photos } from '../api/categories';
+import { getCategoryData, getData } from '../api/search_results';
 
 ///Pass in the data from staticProps once implemented
 export default function CategoryPage() {
   const router = useRouter();
-  const category = router.query.slug;
+  const categoryPageName = router.query.slug;
 
   const [businessData, setBusinessData] = useState<string[]>([]);
+  const [businessByCategoryData, setBusinessByCategoryData] = useState<
+    string[]
+  >([]);
   const [searchList, setSearchList] = useState<string[]>([]);
 
   //If getStaticProps is defined, this is not needed
@@ -22,9 +27,11 @@ export default function CategoryPage() {
     async function onPageLoad() {
       const dataFromAxios = await getData();
       setBusinessData(dataFromAxios as string[]);
+      const dataFromAxios2 = await getCategoryData(categoryPageName as string);
+      setBusinessByCategoryData(dataFromAxios2 as string[]);
     }
     onPageLoad();
-  }, []);
+  }, [categoryPageName]);
 
   const setList = (results: string[]) => {
     const editedSearchList = [];
@@ -48,7 +55,7 @@ export default function CategoryPage() {
           <div className='flex flex-col items-center justify-center min-h-screen text-center text-white layout'>
             <h1>Tamil Record</h1>
             <p className='mt-2 text-sm text-gray-300'>
-              Welcome to the {category} page!
+              Welcome to the {categoryPageName} page!
             </p>
             <div className='flex flex-col mt-12'>
               <div className='relative text-gray-700'>
@@ -88,6 +95,22 @@ export default function CategoryPage() {
                   <li key={index}>{searchResult}</li>
                 ))}
               </ul>
+            </div>
+
+            <div className='mt-12'>
+              <h2>Browse Tamil Businesses by category</h2>
+              <div className='grid grid-cols-4 gap-4 mt-4'>
+                {businessByCategoryData.map((category, index) => (
+                  <CategoryCard
+                    key={index}
+                    title={category}
+                    image_path={category_specific_photos(
+                      categoryPageName as string
+                    )}
+                    route_path={'/categoryPages/' + category}
+                  />
+                ))}
+              </div>
             </div>
 
             <ButtonLink className='mt-6' href='/components' variant='light'>
