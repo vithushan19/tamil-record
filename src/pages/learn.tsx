@@ -11,6 +11,10 @@ type Subtitle = {
   id: string;
 };
 
+type PlayerUpdate = {
+  playedSeconds: number;
+};
+
 const Learn = () => {
   const [subTitles, setSubTitles] = useState<Subtitle[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -25,7 +29,7 @@ const Learn = () => {
     );
   }, []);
 
-  const handleOnProgress = (data) => {
+  const handleOnProgress = (data: PlayerUpdate) => {
     //We have time
     //Create a funct to take in time and get subtitles for that interval
     console.log(data.playedSeconds);
