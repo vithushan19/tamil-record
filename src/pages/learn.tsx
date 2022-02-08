@@ -47,7 +47,7 @@ const Learn = () => {
   return (
     <>
       <div className='w-full p-4 font-bold bg-blue-200'>Learn Thamizh</div>
-      <div className='w-full whitespace-pre'>
+      <div className='w-full '>
         <ReactPlayer
           width={'100%'}
           url='https://www.youtube.com/watch?v=9UiTj9c3H54'
@@ -57,7 +57,7 @@ const Learn = () => {
 
         {subTitles && subTitles[currentIndex] && (
           <div className='flex-wrap p-8 m-4 text-xl bg-gray-100 rounded-md shadow-md h-80'>
-            <p className=''>{subTitles[currentIndex].text}</p>
+            <p className='w-full'>{subTitles[currentIndex].text}</p>
           </div>
         )}
       </div>
