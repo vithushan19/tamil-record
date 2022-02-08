@@ -1,3 +1,7 @@
+0
+00:00:00,00 --> 00:00:27,00
+MUSIC
+
 1
 00:00:27,00 --> 00:00:31,00
 கண்மூடி திறக்கும்போது.
@@ -41,7 +45,7 @@ Devathaiyai paarthathum indru thirunaal engindren
 After meeting her all days have become festivals.
 
 7
-00:00:517,00 --> 00:01:02,00
+00:00:57,00 --> 00:01:02,00
 அழகான விபத்தில் இன்று,
 ஹையோ நான் மாட்டிகொண்டேன்
 Azhagana vibathil indru haiyoo naan maatikonden
