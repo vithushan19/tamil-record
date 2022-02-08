@@ -45,19 +45,23 @@ const Learn = () => {
   };
 
   return (
-    <div className='whitespace-pre'>
-      {JSON.stringify(subTitles[currentIndex])}
-      <p>TEST</p>
-      <ReactPlayer
-        url='https://www.youtube.com/watch?v=9UiTj9c3H54'
-        onProgress={handleOnProgress}
-        controls={true}
-      />
+    <>
+      <div className='w-full p-4 font-bold bg-blue-200'>Learn Thamizh</div>
+      <div className='w-full whitespace-pre'>
+        <ReactPlayer
+          width={'100%'}
+          url='https://www.youtube.com/watch?v=9UiTj9c3H54'
+          onProgress={handleOnProgress}
+          controls={true}
+        />
 
-      {subTitles && subTitles[currentIndex] && (
-        <p>{subTitles[currentIndex].text}</p>
-      )}
-    </div>
+        {subTitles && subTitles[currentIndex] && (
+          <div className='flex-wrap p-8 m-4 text-xl bg-gray-100 rounded-md shadow-md h-80'>
+            <p className=''>{subTitles[currentIndex].text}</p>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 
