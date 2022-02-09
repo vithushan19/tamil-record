@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import ReactPlayer from 'react-player/youtube';
 
-import { getSubtitles } from './api/generateSubtitles';
+import {
+  getSubtitlesEnglish,
+  getSubtitlesTamil,
+  getSubtitlesTransliteration,
+} from './api/generateSubtitles';
 import { convertTimeStamp } from './api/time';
 
 type Subtitle = {
@@ -16,36 +20,33 @@ type PlayerUpdate = {
 };
 
 const Learn = () => {
-  const [subTitles, setSubTitles] = useState<Subtitle[]>([]);
+  const [subTitlesTamil, setSubTitlesTamil] = useState<Subtitle[]>([]);
+  const [subTitlesTrans, setSubTitlesTrans] = useState<Subtitle[]>([]);
+  const [subTitlesEnglish, setSubTitlesEnglish] = useState<Subtitle[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   useEffect(() => {
-    getSubtitles().then((res) =>
-      // TODO initialize subtitle
-      {
-        setSubTitles(res);
-        setCurrentIndex(0);
-      }
-    );
+    getSubtitlesTamil().then((res) => {
+      setSubTitlesTamil(res);
+      setCurrentIndex(0);
+    });
+    getSubtitlesTransliteration().then((res) => {
+      setSubTitlesTrans(res);
+      setCurrentIndex(0);
+    });
+    getSubtitlesEnglish().then((res) => {
+      setSubTitlesEnglish(res);
+      setCurrentIndex(0);
+    });
   }, []);
 
   const handleOnProgress = (data: PlayerUpdate) => {
-    //We have time
-    //Create a funct to take in time and get subtitles for that interval
-    console.log(data.playedSeconds);
-    const currentSubtitleIndex = subTitles.findIndex(
+    const currentSubtitleIndex = subTitlesTamil.findIndex(
       (sub) =>
         data.playedSeconds >= convertTimeStamp(sub.startTime) &&
         data.playedSeconds <= convertTimeStamp(sub.endTime)
     );
     setCurrentIndex(Math.max(0, currentSubtitleIndex));
-    console.log(
-      currentSubtitleIndex,
-      JSON.stringify(data.playedSeconds),
-      JSON.stringify(subTitles[0].startTime),
-      JSON.stringify(subTitles[0].endTime),
-      JSON.stringify(subTitles[0].text)
-    );
   };
 
   return (
@@ -59,11 +60,43 @@ const Learn = () => {
           controls={true}
         />
 
-        {subTitles && subTitles[currentIndex] && (
-          <div className='flex-wrap p-8 m-4 text-xl bg-gray-100 rounded-md shadow-md h-80'>
-            <p className='w-full'>{subTitles[currentIndex].text}</p>
-          </div>
-        )}
+        {subTitlesTamil &&
+          subTitlesTamil[currentIndex] &&
+          subTitlesTrans &&
+          subTitlesTrans[currentIndex] &&
+          subTitlesEnglish &&
+          subTitlesEnglish[currentIndex] && (
+            <div className='flex-wrap p-8 m-4 text-xl bg-gray-100 rounded-md shadow-md h-80'>
+              <div>
+                <div className='flex flex-row m-2'>
+                  <p className='bg-red-400 rounded-r-lg max-w-xs text-center w-1/5 break-words'>
+                    தமிழ்
+                  </p>
+                  <p className='w-full m-2 text-red-900'>
+                    {subTitlesTamil[currentIndex].text}
+                  </p>
+                </div>
+                <div className='flex flex-row m-2'>
+                  {' '}
+                  <p className='bg-green-400 rounded-r-lg max-w-xs text-center  break-words w-1/5'>
+                    Transliteration
+                  </p>
+                  <p className='w-full m-2 text-green-900'>
+                    {subTitlesTrans[currentIndex].text}
+                  </p>
+                </div>
+                <div className='flex flex-row m-2'>
+                  {' '}
+                  <p className='bg-blue-400 rounded-r-lg max-w-xs text-center  break-words w-1/5'>
+                    English
+                  </p>{' '}
+                  <p className='w-full m-2 text-blue-900'>
+                    {subTitlesEnglish[currentIndex].text}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
       </div>
     </>
   );
