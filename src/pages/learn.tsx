@@ -66,7 +66,7 @@ const Learn = () => {
           subTitlesTrans[currentIndex] &&
           subTitlesEnglish &&
           subTitlesEnglish[currentIndex] && (
-            <div className='flex-wrap p-8 m-4 text-xl bg-gray-100 rounded-md shadow-md h-80'>
+            <div className='flex-wrap p-8 m-4 md:text-xl bg-gray-100 rounded-md shadow-md h-80'>
               <div>
                 <div className='flex flex-row m-2'>
                   <p className='bg-red-400 rounded-r-lg max-w-xs text-center w-1/5 break-words'>
