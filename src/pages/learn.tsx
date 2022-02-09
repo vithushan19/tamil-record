@@ -66,10 +66,10 @@ const Learn = () => {
           subTitlesTrans[currentIndex] &&
           subTitlesEnglish &&
           subTitlesEnglish[currentIndex] && (
-            <div className='flex-wrap p-8 m-4 md:text-xl bg-gray-100 rounded-md shadow-md h-80'>
+            <div className='flex-wrap p-8 md:m-4  md:text-xl bg-gray-100 rounded-md shadow-md h-80'>
               <div>
                 <div className='flex flex-row m-2'>
-                  <p className='bg-red-400 rounded-r-lg max-w-xs text-center w-1/5 break-words'>
+                  <p className='bg-red-400 rounded-r-lg max-w-xs text-center break-words w-1/5 px-3'>
                     தமிழ்
                   </p>
                   <p className='w-full m-2 text-red-900'>
@@ -78,7 +78,7 @@ const Learn = () => {
                 </div>
                 <div className='flex flex-row m-2'>
                   {' '}
-                  <p className='bg-green-400 rounded-r-lg max-w-xs text-center  break-words w-1/5'>
+                  <p className='bg-green-400 rounded-r-lg md:max-w-xs text-center  break-words px-3'>
                     Transliteration
                   </p>
                   <p className='w-full m-2 text-green-900'>
@@ -87,7 +87,7 @@ const Learn = () => {
                 </div>
                 <div className='flex flex-row m-2'>
                   {' '}
-                  <p className='bg-blue-400 rounded-r-lg max-w-xs text-center  break-words w-1/5'>
+                  <p className='bg-blue-400 rounded-r-lg md:max-w-xs text-center  break-words px-3'>
                     English
                   </p>{' '}
                   <p className='w-full m-2 text-blue-900'>
