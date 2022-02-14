@@ -68,16 +68,16 @@ const Learn = () => {
 
         <div className='bg-gray-200 flex px-4 py-4 gap-2 w-full'>
           <div className='flex justify-around w-full'>
-            <div className='bg-red-400 hover:bg-red-200 text-lg p-2 flex cursor-pointer flex-col justify-center rounded-lg max-w-xs text-center break-words align-middle'>
+            <div className='bg-red-400 hover:bg-red-200 focus:border-2 focus:border-red-700 text-lg p-2 flex cursor-pointer flex-col justify-center rounded-lg max-w-xs text-center break-words align-middle'>
               <p>தமிழ்</p>
             </div>
-            <div className='bg-green-400 p-2 hover:bg-green-200 cursor-pointer rounded-lg md:max-w-xs text-center flex flex-col justify-center  break-words'>
+            <div className='bg-green-400 p-2 hover:bg-green-200 focus:border-2 focus:border-green-700 cursor-pointer rounded-lg md:max-w-xs text-center flex flex-col justify-center  break-words'>
               <p>Transliteration</p>
             </div>
-            <div className='bg-blue-400 p-2 hover:bg-blue-200 cursor-pointer rounded-lg md:max-w-xs text-center flex flex-col justify-center break-words'>
+            <div className='bg-blue-400 p-2 hover:bg-blue-200  focus:border-2 focus:border-blue-700 cursor-pointer rounded-lg md:max-w-xs text-center flex flex-col justify-center break-words'>
               <p>English</p>
             </div>{' '}
-            <div className='flex p-2 items-center cursor-pointer hover:bg-purple-200 justify-center  rounded-xl bg-purple-400'>
+            <div className='flex p-2 items-center cursor-pointer  focus:border-2 hover:bg-purple-200  focus:border-purple-700 justify-center  rounded-xl bg-purple-400'>
               <p>Loop</p>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -87,9 +87,9 @@ const Learn = () => {
                 stroke='currentColor'
               >
                 <path
-                  stroke-linecap='round'
-                  stroke-linejoin='round'
-                  stroke-width='2'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth='2'
                   d='M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15'
                 />
               </svg>
