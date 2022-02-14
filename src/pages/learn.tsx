@@ -66,10 +66,10 @@ const Learn = () => {
           subTitlesTrans[currentIndex] &&
           subTitlesEnglish &&
           subTitlesEnglish[currentIndex] && (
-            <div className='flex-wrap p-8 md:m-4  md:text-xl bg-gray-100 rounded-md shadow-md h-80'>
+            <div className='flex-wrap p-8 md:m-4  md:text-xl bg-gray-100 rounded-md shadow-md h-80 font-mono'>
               <div>
                 <div className='flex flex-row m-2'>
-                  <p className='bg-red-400 rounded-r-lg max-w-xs text-center break-words w-1/5 px-3'>
+                  <p className='bg-red-400 rounded-r-lg max-w-xs text-center break-words w-1/5 px-3 align-middle'>
                     தமிழ்
                   </p>
                   <p className='w-full m-2 text-red-900'>
