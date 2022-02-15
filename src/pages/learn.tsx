@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ReactPlayer from 'react-player/youtube';
 
 import {
@@ -23,7 +23,9 @@ const Learn = () => {
   const [subTitlesTamil, setSubTitlesTamil] = useState<Subtitle[]>([]);
   const [subTitlesTrans, setSubTitlesTrans] = useState<Subtitle[]>([]);
   const [subTitlesEnglish, setSubTitlesEnglish] = useState<Subtitle[]>([]);
+  const [isLoop, setIsLoop] = useState<boolean>(false);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const playerRef = useRef<ReactPlayer>(null);
 
   const [isThamizhVisible, setIsThamizhVisible] = useState<boolean>(true);
   const [isTransliterationVisible, setIsTransliterationVisible] =
@@ -52,7 +54,13 @@ const Learn = () => {
         data.playedSeconds >= convertTimeStamp(sub.startTime) &&
         data.playedSeconds <= convertTimeStamp(sub.endTime)
     );
-    setCurrentIndex(Math.max(0, currentSubtitleIndex));
+    if (isLoop && currentSubtitleIndex !== currentIndex) {
+      playerRef.current?.seekTo(
+        Number.parseInt(subTitlesTamil[currentIndex].startTime)
+      );
+    } else {
+      setCurrentIndex(Math.max(0, currentSubtitleIndex));
+    }
   };
 
   const handleThamizhClick = () => {
@@ -64,12 +72,17 @@ const Learn = () => {
   const handleTranslationClick = () => {
     setIsTranslationVisible(!isTranslationhVisible);
   };
+  const handleLoopClick = () => {
+    setIsLoop(!isLoop);
+  };
 
   return (
     <>
       <div className='w-full p-4 font-bold bg-blue-200'>Learn Thamizh</div>
       <div className='w-full '>
         <ReactPlayer
+          playing={true}
+          ref={playerRef}
           width={'100%'}
           url='https://www.youtube.com/watch?v=9UiTj9c3H54'
           onProgress={handleOnProgress}
@@ -96,7 +109,10 @@ const Learn = () => {
             >
               <p>English</p>
             </div>{' '}
-            <div className='flex p-2 items-center cursor-pointer  focus:border-2 hover:bg-purple-200  focus:border-purple-700 justify-center  rounded-xl bg-purple-400'>
+            <div
+              className='flex p-2 items-center cursor-pointer  focus:border-2 hover:bg-purple-200  focus:border-purple-700 justify-center  rounded-xl bg-purple-400'
+              onClick={handleLoopClick}
+            >
               <p>Loop</p>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
