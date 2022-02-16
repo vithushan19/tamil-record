@@ -56,7 +56,7 @@ const Learn = () => {
     );
     if (isLoop && currentSubtitleIndex !== currentIndex) {
       playerRef.current?.seekTo(
-        Number.parseInt(subTitlesTamil[currentIndex].startTime)
+        convertTimeStamp(subTitlesTamil[currentIndex].startTime)
       );
     } else {
       setCurrentIndex(Math.max(0, currentSubtitleIndex));
@@ -110,7 +110,9 @@ const Learn = () => {
               <p>English</p>
             </div>{' '}
             <div
-              className='flex p-2 items-center cursor-pointer  focus:border-2 hover:bg-purple-200  focus:border-purple-700 justify-center  rounded-xl bg-purple-400'
+              className={`flex p-2 items-center cursor-pointer  focus:border-2 hover:bg-purple-200  focus:border-purple-700 justify-center  rounded-xl ${
+                isLoop ? 'bg-purple-200' : 'bg-purple-400'
+              }`}
               onClick={handleLoopClick}
             >
               <p>Loop</p>
