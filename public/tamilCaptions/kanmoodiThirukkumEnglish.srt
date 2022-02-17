@@ -98,8 +98,8 @@ If you step on the road,
 00:03:38,02 --> 00:03:41,60
 even street lights will wink at you.
 
-25 
-00:03:41,60 --> 00:03:46,34
+25
+00:03:41,61 --> 00:03:46,34
 Even Sun will refuse to set.
 
 26
