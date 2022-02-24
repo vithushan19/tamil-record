@@ -93,19 +93,25 @@ const Learn = () => {
           <div className='flex justify-around w-full'>
             <div
               onClick={handleThamizhClick}
-              className='bg-red-400 hover:bg-red-200 text-lg p-2 flex cursor-pointer flex-col justify-center rounded-lg max-w-xs text-center break-words align-middle'
+              className={`hover:bg-red-200 text-lg p-2 flex cursor-pointer flex-col justify-center rounded-lg max-w-xs text-center break-words align-middle ${
+                isThamizhVisible ? 'bg-red-400' : 'bg-red-200'
+              }`}
             >
               <p>தமிழ்</p>
             </div>
             <div
               onClick={handleTransliterationClick}
-              className='bg-green-400 p-2 hover:bg-green-200 cursor-pointer rounded-lg md:max-w-xs text-center flex flex-col justify-center  break-words'
+              className={`hover:bg-green-200 text-lg p-2 flex cursor-pointer flex-col justify-center rounded-lg max-w-xs text-center break-words align-middle ${
+                isTransliterationVisible ? 'bg-green-400' : 'bg-green-200'
+              }`}
             >
               <p>Transliteration</p>
             </div>
             <div
               onClick={handleTranslationClick}
-              className='bg-blue-400 p-2 hover:bg-blue-200 cursor-pointer rounded-lg md:max-w-xs text-center flex flex-col justify-center break-words'
+              className={`hover:bg-blue-200 text-lg p-2 flex cursor-pointer flex-col justify-center rounded-lg max-w-xs text-center break-words align-middle ${
+                isTranslationhVisible ? 'bg-blue-400' : 'bg-blue-200'
+              }`}
             >
               <p>English</p>
             </div>{' '}
