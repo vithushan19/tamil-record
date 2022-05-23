@@ -7,7 +7,7 @@ interface LineProps {
 }
 export default function Line({ avatarUrl, text, translation }: LineProps) {
   return (
-    <div className='flex items-center bg-primary-200'>
+    <div className='flex items-center bg-rattata-200'>
       <Image
         width={96}
         height={96}

@@ -50,11 +50,11 @@ const GoodMorning = ({ storyData }: PageProps) => {
 
   return (
     <div className='flex flex-col w-full h-screen'>
-      <div className='sticky z-10 w-full p-4 shadow-md bg-primary-200'>
-        <div className='py-4 font-bold bg-primary-200 '>{storyData.title}</div>
+      <div className='sticky z-10 w-full p-4 shadow-md'>
+        <div className='py-4 font-bold '>{storyData.title}</div>
         <div className='w-full h-3 bg-gray-200 rounded-full dark:bg-gray-700'>
           <div
-            className='h-3 transition-all transform rounded-full bg-primary-600'
+            className='h-3 transition-all transform rounded-full bg-charmander'
             style={{
               width: `${(currentStep * 100) / storyData.steps.length}%`,
             }}
@@ -66,16 +66,16 @@ const GoodMorning = ({ storyData }: PageProps) => {
           <h2 className='mb-4 text-xl font-bold text-center'>
             Congratulations! You completed a story.
           </h2>
-          <div className='overflow-hidden rounded-lg bg-primary-400'>
+          <div className='overflow-hidden rounded-lg bg-rattata'>
             <Lottie options={defaultOptions} height={400} width={400} />
           </div>
         </div>
       ) : (
-        <div className='flex-grow w-full overflow-auto'>
+        <div className='flex-grow w-full overflow-auto '>
           {storyData.steps.slice(0, currentStep).map((step) => (
             <div key={step._id}>
               {step._type === 'line' ? (
-                <div className='m-4 bg-red-400'>
+                <div className='m-4 overflow-hidden bg-red-400 rounded-lg'>
                   <Line
                     avatarUrl={step.character.imageUrl}
                     text={step.text}
@@ -99,16 +99,10 @@ const GoodMorning = ({ storyData }: PageProps) => {
       )}
       <div className='flex justify-center'>
         <button
-          className='p-4 m-4 rounded-md bg-primary-500'
+          className='w-full p-4 m-4 font-bold text-white rounded-md bg-charmander'
           onClick={onNextClick}
         >
-          Next
-        </button>
-        <button
-          className='p-4 m-4 rounded-md bg-primary-500'
-          onClick={onPreviousClick}
-        >
-          Previous
+          Continue
         </button>
       </div>
     </div>
@@ -122,9 +116,18 @@ const client = createClient({
   useCdn: false,
 });
 
-export async function getStaticProps() {
+export async function getStaticPaths() {
+  return {
+    paths: [{ params: { slug: 'good-morning' } }],
+    fallback: false,
+  };
+}
+
+export async function getStaticProps(context: any) {
+  const slug = context.params.slug;
+
   const sanityResponse = await client.fetch(
-    `*[_type == "story"]
+    `*[_type == "story" && slug == "${slug}"]
     {
       title, 
       steps[]->{

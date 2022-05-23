@@ -18,7 +18,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        primary: ['Inter', ...fontFamily.sans],
+        primary: ['Poppins', ...fontFamily.sans],
       },
       colors: {
         primary: {
@@ -35,6 +35,27 @@ module.exports = {
           900: withOpacity('--tw-clr-primary-900'),
         },
         dark: '#222222',
+        charmander: "#F18701",
+        rattata: {
+          200: "#babbf6",
+          500: "#7678ED",
+        },
+        pikachu: {
+          200: "#F7B80150",
+          500: "#F7B801",
+        },
+        murkrow: "#18124D",
+        bulbasaur: {
+          200: "#F0FFE9",
+          500: "#5BB84C",
+        },
+        moltres: {
+          200: "#FFE8E8",
+          500: "#D00000",
+        },
+        black: {
+          transparent: "#000000e1",
+        },
       },
       keyframes: {
         flicker: {
