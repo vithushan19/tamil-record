@@ -28,6 +28,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
+    "react-lottie": "^1.2.3",
     "react-player": "^2.9.0",
     "srt-parser-2": "^1.1.7"
   },
@@ -37,6 +38,7 @@
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^12.1.2",
     "@types/react": "^17.0.35",
+    "@types/react-lottie": "^1.2.6",
     "@types/tailwindcss": "^2.2.4",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
