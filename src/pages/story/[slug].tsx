@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { createClient } from 'next-sanity';
 import React, { useEffect, useRef, useState } from 'react';
 import Lottie from 'react-lottie';
@@ -15,20 +16,20 @@ interface StoryData {
   title: string;
 }
 
-const GoodMorning = ({ storyData }: PageProps) => {
+const StoryPage = ({ storyData }: PageProps) => {
   const [currentStep, setStep] = useState(1);
   const storyEndRef = useRef<HTMLDivElement>(null);
   const [isSessionEnd, setSessionEnd] = useState(false);
+  const router = useRouter();
 
   const onNextClick = () => {
+    if (isSessionEnd) {
+      router.push('/stories');
+    }
     if (currentStep === storyData.steps.length) {
       setSessionEnd(true);
     }
     setStep(Math.min(storyData.steps.length, currentStep + 1));
-  };
-  const onPreviousClick = () => {
-    setSessionEnd(false);
-    setStep(Math.max(0, currentStep - 1));
   };
 
   useEffect(() => {
@@ -146,4 +147,4 @@ export async function getStaticProps(context: any) {
   };
 }
 
-export default GoodMorning;
+export default StoryPage;
