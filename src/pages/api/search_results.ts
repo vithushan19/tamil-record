@@ -4,10 +4,14 @@ const base = new Airtable({ apiKey: process.env.NEXT_PUBLIC_API_KEY }).base(
   process.env.NEXT_PUBLIC_BASE_KEY ?? ''
 );
 
+export interface Listing {
+  name: string;
+  instagram: string;
+}
 export const getData = () => {
-  const data = new Array<string>();
+  const data = new Array<Listing>();
 
-  return new Promise((resolve, reject) => {
+  return new Promise<Listing[]>((resolve, reject) => {
     base('TamilRecord')
       .select({
         // Selecting the first 3 records in Directory:
@@ -18,7 +22,10 @@ export const getData = () => {
         function page(records, fetchNextPage) {
           // This function (`page`) will get called for each page of records.
           records.forEach(function (record) {
-            data.push(record.get('Name') as string);
+            data.push({
+              name: record.get('Name') as string,
+              instagram: record.get('Instagram') as string,
+            });
           });
 
           // To fetch the next page of records, call `fetchNextPage`.
@@ -35,9 +42,9 @@ export const getData = () => {
 };
 
 export const getCategoryData = (category: string) => {
-  const data = new Array<string>();
+  const data = new Array<Listing>();
 
-  return new Promise((resolve, reject) => {
+  return new Promise<Listing[]>((resolve, reject) => {
     base('TamilRecord')
       .select({
         // Selecting the first 3 records in Directory:
@@ -49,7 +56,10 @@ export const getCategoryData = (category: string) => {
         function page(records, fetchNextPage) {
           // This function (`page`) will get called for each page of records.
           records.forEach(function (record) {
-            data.push(record.get('Name') as string);
+            data.push({
+              name: record.get('Name') as string,
+              instagram: record.get('Instagram') as string,
+            });
           });
 
           // To fetch the next page of records, call `fetchNextPage`.

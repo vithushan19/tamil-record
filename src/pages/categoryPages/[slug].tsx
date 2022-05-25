@@ -4,19 +4,18 @@ import { useEffect, useState } from 'react';
 
 import { CategoryCard } from '@/components/categories/CategoryCard';
 import Layout from '@/components/layout/Layout';
-import ButtonLink from '@/components/links/ButtonLink';
 import CustomLink from '@/components/links/CustomLink';
 import Seo from '@/components/Seo';
 
 import { category_specific_photos } from '../api/categories';
-import { getCategoryData, getData } from '../api/search_results';
+import { getCategoryData, Listing } from '../api/search_results';
 
 ///Pass in the data from staticProps once implemented
 export default function CategoryPage() {
   const router = useRouter();
   const categoryPageName = router.query.slug;
   const [businessByCategoryData, setBusinessByCategoryData] = useState<
-    string[]
+    Listing[]
   >([]);
   const [isLoading, setLoading] = useState(false);
 
@@ -25,8 +24,9 @@ export default function CategoryPage() {
     async function onPageLoad() {
       setLoading(true);
 
-      const dataFromAxios2 = await getCategoryData(categoryPageName as string);
-      setBusinessByCategoryData(dataFromAxios2 as string[]);
+      const data = await getCategoryData(categoryPageName as string);
+
+      setBusinessByCategoryData(data as Listing[]);
       setLoading(false);
     }
     onPageLoad();
@@ -40,20 +40,20 @@ export default function CategoryPage() {
       <main>
         <section className='bg-dark'>
           <div className='flex flex-col items-center justify-center min-h-screen text-center layout'>
-            <h1 className='text-white'>{categoryPageName}</h1>
-            <div className='mt-12'>
+            <h1 className='p-8 text-white'>{categoryPageName}</h1>
+            <div className='mt-4'>
               {isLoading ? (
                 <p className='text-white'>Loading...</p>
               ) : (
                 <div className='grid grid-cols-4 gap-4 mt-4'>
-                  {businessByCategoryData.map((category, index) => (
+                  {businessByCategoryData.map((listing, index) => (
                     <CategoryCard
                       key={index}
-                      title={category}
+                      title={listing.name}
                       image_path={category_specific_photos(
                         categoryPageName as string
                       )}
-                      route_path={'/categoryPages/' + category}
+                      route_path={'/categoryPages/' + listing.name}
                     />
                   ))}
                 </div>

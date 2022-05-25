@@ -8,18 +8,18 @@ import CustomLink from '@/components/links/CustomLink';
 import Seo from '@/components/Seo';
 
 import { categories, categories_photos } from './api/categories';
-import { getData } from './api/search_results';
+import { getData, Listing } from './api/search_results';
 
 ///Pass in the data from staticProps once implemented
 export default function HomePage() {
-  const [businessData, setBusinessData] = useState<string[]>([]);
+  const [businessData, setBusinessData] = useState<Listing[]>([]);
   const [searchList, setSearchList] = useState<string[]>([]);
 
   //If getStaticProps is defined, this is not needed
   useEffect(() => {
     async function onPageLoad() {
-      const dataFromAxios = await getData();
-      setBusinessData(dataFromAxios as string[]);
+      const data = await getData();
+      setBusinessData(data);
     }
     onPageLoad();
   }, []);
@@ -66,11 +66,13 @@ export default function HomePage() {
                         //returning only the results of setList if the value of the search is included in the business' name
                         setList(
                           //change the filter function to use strings rather than the custom type
-                          businessData.filter((business) => {
-                            return business
-                              .toLowerCase()
-                              .includes(value.toLowerCase());
-                          })
+                          businessData
+                            .filter((business) => {
+                              return business.name
+                                .toLowerCase()
+                                .includes(value.toLowerCase());
+                            })
+                            .map((it) => it.name)
                         );
                       }
                     }}
