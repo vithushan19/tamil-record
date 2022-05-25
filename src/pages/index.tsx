@@ -1,9 +1,9 @@
+import Link from 'next/link';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
 import { CategoryCard } from '@/components/categories/CategoryCard';
 import Layout from '@/components/layout/Layout';
-import ButtonLink from '@/components/links/ButtonLink';
 import CustomLink from '@/components/links/CustomLink';
 import Seo from '@/components/Seo';
 
@@ -41,6 +41,25 @@ export default function HomePage() {
       {/* <Seo templateTitle='Home' /> */}
       <Seo />
 
+      <nav>
+        <div className='flex justify-center '>
+          <Link href='/' passHref>
+            <p className='p-4 ml-4 font-bold border-b-4 border-white cursor-pointer hover:border-rattata-500 hover:bg-charmander hover:text-white'>
+              Directory
+            </p>
+          </Link>
+          <Link href='/stories' passHref>
+            <p className='p-4 ml-4 font-bold border-b-4 border-white cursor-pointer hover:border-rattata-500 hover:bg-charmander hover:text-white'>
+              Stories
+            </p>
+          </Link>
+          <Link href='/videos' passHref>
+            <p className='p-4 ml-4 font-bold border-b-4 border-white cursor-pointer hover:border-rattata-500 hover:bg-charmander hover:text-white'>
+              Videos
+            </p>
+          </Link>
+        </div>
+      </nav>
       <main>
         <section className='bg-gray-200'>
           <div className='flex flex-col items-center justify-center min-h-screen text-center '>
