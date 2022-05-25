@@ -16,13 +16,13 @@ export const CategoryCard = ({
 }: CategoryProps) => {
   return (
     <Link passHref={true} href={route_path}>
-      <div className='bg-white rounded-xl p-4 text-gray-600 hover:bg-yellow-400 flex flex-col'>
-        {title}
+      <div className='flex flex-col p-4 bg-white rounded-lg hover:bg-charmander'>
+        <p className='mb-4 text-lg font-bold'>{title}</p>
         <Image
           height={164}
           width={164}
           alt={title}
-          className='object-cover transform transition-all hover:scale-105 ease-in-out duration-500'
+          className='object-cover transition-all duration-500 ease-in-out transform hover:scale-105'
           src={image_path}
         ></Image>
       </div>

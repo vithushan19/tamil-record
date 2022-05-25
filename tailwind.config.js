@@ -17,6 +17,9 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      backgroundImage: {
+        'hero': "url('/images/hero.png')",
+      },
       fontFamily: {
         primary: ['Poppins', ...fontFamily.sans],
       },
