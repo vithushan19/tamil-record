@@ -21,7 +21,7 @@ export const storySlice = createSlice({
   reducers: {
     loadStory: (state, action: PayloadAction<StoryData>) => {
       state.storyData = action.payload;
-      state.currentStep = 1;
+      state.currentStep = 20;
       state.isContinueEnabled = true;
       state.isSessionEnd = false;
     },

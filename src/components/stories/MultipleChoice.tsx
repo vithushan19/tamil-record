@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Options } from 'react-lottie';
 import { useDispatch } from 'react-redux';
 
-import { disableContinue, enableContinue } from '@/features/stories/storySlice';
+import { enableContinue } from '@/features/stories/storySlice';
 
 import MCOption, { OptionState } from './MCOption';
 

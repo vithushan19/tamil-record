@@ -5,6 +5,7 @@ import Lottie from 'react-lottie';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Line from '@/components/stories/Line';
+import Matching, { Pair } from '@/components/stories/Matching';
 import MultipleChoice from '@/components/stories/MultipleChoice';
 
 import {
@@ -96,6 +97,13 @@ const StoryPage = ({ storyData }: PageProps) => {
                 </div>
               ) : step._type === 'multipleChoice' ? (
                 <MultipleChoice question={step.title} choices={step.choices} />
+              ) : step._type === 'matching' ? (
+                <Matching
+                  title={step.title}
+                  pairs={step.pairs.map((it: Pair) => {
+                    return { text: it.text, translation: it.translation };
+                  })}
+                />
               ) : (
                 <div className='my-4'>
                   <p className='mx-4 overflow-auto text-lg font-bold bg-red-50'>
