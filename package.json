@@ -20,6 +20,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.8.2",
     "@tailwindcss/forms": "0.3.4",
     "airtable": "0.11.1",
     "clsx": "1.1.1",
@@ -30,6 +31,7 @@
     "react-icons": "4.3.1",
     "react-lottie": "^1.2.3",
     "react-player": "2.9.0",
+    "react-redux": "^8.0.2",
     "srt-parser-2": "1.1.7"
   },
   "devDependencies": {

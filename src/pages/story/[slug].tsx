@@ -2,8 +2,16 @@ import { useRouter } from 'next/router';
 import { createClient } from 'next-sanity';
 import React, { useEffect, useRef, useState } from 'react';
 import Lottie from 'react-lottie';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Line from '@/components/stories/Line';
+import MultipleChoice from '@/components/stories/MultipleChoice';
+
+import {
+  handleContinue,
+  loadStory,
+  selectStoryState,
+} from '@/features/stories/storySlice';
 
 import * as animationData from '../../../public/anims/story-session-end.json';
 
@@ -11,26 +19,29 @@ interface PageProps {
   storyData: StoryData;
 }
 
-interface StoryData {
+export interface StoryData {
   steps: any[];
   title: string;
 }
 
 const StoryPage = ({ storyData }: PageProps) => {
-  const [currentStep, setStep] = useState(1);
   const storyEndRef = useRef<HTMLDivElement>(null);
-  const [isSessionEnd, setSessionEnd] = useState(false);
   const router = useRouter();
+  const dispatch = useDispatch();
+  const { currentStep, isSessionEnd, isContinueEnabled } =
+    useSelector(selectStoryState);
 
   const onNextClick = () => {
     if (isSessionEnd) {
       router.push('/stories');
+    } else {
+      dispatch(handleContinue());
     }
-    if (currentStep === storyData.steps.length) {
-      setSessionEnd(true);
-    }
-    setStep(Math.min(storyData.steps.length, currentStep + 1));
   };
+
+  useEffect(() => {
+    dispatch(loadStory(storyData));
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
@@ -83,6 +94,8 @@ const StoryPage = ({ storyData }: PageProps) => {
                     translation={step.translation}
                   />
                 </div>
+              ) : step._type === 'multipleChoice' ? (
+                <MultipleChoice question={step.title} choices={step.choices} />
               ) : (
                 <div className='my-4'>
                   <p className='mx-4 overflow-auto text-lg font-bold bg-red-50'>
@@ -100,7 +113,8 @@ const StoryPage = ({ storyData }: PageProps) => {
       )}
       <div className='flex justify-center'>
         <button
-          className='w-full p-4 m-4 font-bold text-white rounded-md bg-charmander'
+          className='w-full p-4 m-4 font-bold text-white rounded-md bg-charmander disabled:bg-gray-400'
+          disabled={!isContinueEnabled}
           onClick={onNextClick}
         >
           Continue
