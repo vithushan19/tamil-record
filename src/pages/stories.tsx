@@ -18,7 +18,7 @@ const StoriesHomePage = ({ storyListData }: PageProps) => {
       <div className='grid flex-grow w-full grid-cols-1 p-4 overflow-auto md:grid-cols-4'>
         {storyListData.map((story: any) => (
           <Link key={story.slug} href={`/story/${story.slug}`} passHref>
-            <div className='flex flex-col items-center justify-center h-56 p-4 bg-white rounded-lg cursor-pointer'>
+            <div className='flex flex-col items-center justify-center h-56 p-4 ml-4 bg-white rounded-lg cursor-pointer'>
               <div className='flex flex-col justify-center '>
                 <Image
                   width={120}
@@ -55,6 +55,7 @@ export async function getStaticProps() {
       "imageUrl": image.asset->url
     }`
   );
+
   return {
     props: {
       storyListData: sanityResponse,

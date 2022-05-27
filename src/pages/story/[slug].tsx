@@ -141,7 +141,10 @@ const client = createClient({
 
 export async function getStaticPaths() {
   return {
-    paths: [{ params: { slug: 'good-morning' } }],
+    paths: [
+      { params: { slug: 'good-morning' } },
+      { params: { slug: 'a-date' } },
+    ],
     fallback: false,
   };
 }
