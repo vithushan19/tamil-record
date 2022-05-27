@@ -21,7 +21,7 @@ export const storySlice = createSlice({
   reducers: {
     loadStory: (state, action: PayloadAction<StoryData>) => {
       state.storyData = action.payload;
-      state.currentStep = 20;
+      state.currentStep = 1;
       state.isContinueEnabled = true;
       state.isSessionEnd = false;
     },
@@ -36,7 +36,8 @@ export const storySlice = createSlice({
         if (state.currentStep === state.storyData.steps.length) {
           state.isSessionEnd = true;
         } else if (
-          state.storyData.steps[state.currentStep]._type === 'multipleChoice'
+          state.storyData.steps[state.currentStep]._type === 'multipleChoice' ||
+          state.storyData.steps[state.currentStep]._type === 'matching'
         ) {
           state.isContinueEnabled = false;
           state.currentStep += 1;

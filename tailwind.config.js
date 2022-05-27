@@ -76,6 +76,9 @@ module.exports = {
       animation: {
         flicker: 'flicker 3s linear infinite',
       },
+      height: {
+        128: "32rem"
+      }
     },
   },
   variants: {

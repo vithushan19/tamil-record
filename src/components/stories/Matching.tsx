@@ -1,10 +1,8 @@
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { Options } from 'react-lottie';
 import { useDispatch } from 'react-redux';
 
 import { enableContinue } from '@/features/stories/storySlice';
-
-import MCOption, { OptionState } from './MCOption';
 
 export interface Pair {
   text: string;
@@ -16,11 +14,11 @@ interface MultipleChoiceProps {
 }
 export default function Matching({ title, pairs }: MultipleChoiceProps) {
   const dispatch = useDispatch();
-
   const [selectedWord, setSelectedWord] = useState('');
   const [columnA, setColumnA] = useState<string[]>([]);
   const [columnB, setColumnB] = useState<string[]>([]);
   const [clearedWords, setClearedWords] = useState<string[]>([]);
+  const [isComplete, setComplete] = useState(false);
 
   useEffect(() => {
     setColumnA(pairs.map((it) => it.text));
@@ -38,21 +36,38 @@ export default function Matching({ title, pairs }: MultipleChoiceProps) {
           );
         })
       ) {
-        setClearedWords([...clearedWords, selectedWord, columnAWord]);
+        const nextClearedWords = [...clearedWords, selectedWord, columnAWord];
+        setClearedWords(nextClearedWords);
         setSelectedWord('');
+        if (nextClearedWords.length >= columnA.length * 2) {
+          setComplete(true);
+          dispatch(enableContinue());
+        }
       }
-    } else {
+    } else if (!clearedWords.includes(columnAWord)) {
       setSelectedWord(columnAWord);
     }
   };
 
   const onColumnBClick = (columnBWord: string) => {
     if (columnA.includes(selectedWord)) {
-      if (pairs.includes({ text: selectedWord, translation: columnBWord })) {
-        setClearedWords([...clearedWords, selectedWord, columnBWord]);
+      if (
+        pairs.some((elem) => {
+          return (
+            JSON.stringify({ text: selectedWord, translation: columnBWord }) ===
+            JSON.stringify(elem)
+          );
+        })
+      ) {
+        const nextClearedWords = [...clearedWords, selectedWord, columnBWord];
+        setClearedWords(nextClearedWords);
         setSelectedWord('');
+        if (nextClearedWords.length >= columnB.length * 2) {
+          setComplete(true);
+          dispatch(enableContinue());
+        }
       }
-    } else {
+    } else if (!clearedWords.includes(columnBWord)) {
       setSelectedWord(columnBWord);
     }
   };
@@ -67,25 +82,38 @@ export default function Matching({ title, pairs }: MultipleChoiceProps) {
   };
 
   return (
-    <div className='flex items-center p-4 m-4 bg-gray-100 border-4 rounded-md border-rattata-500'>
+    <div className='flex items-center p-4 m-4 bg-gray-100 border-4 rounded-md border-rattata-500 h-128'>
       <div className='flex flex-col flex-1 ml-4'>
-        <p className='mb-4 text-2xl'> {title}</p>
-        <div className='grid grid-cols-2'>
-          <div className='flex flex-col'>
-            {columnA.map((it, index) => (
-              <div key={index} onClick={(e) => onColumnAClick(it)}>
-                <MatchingWord text={it} state={getStateForWord(it)} />
-              </div>
-            ))}
+        <p className='mb-4 text-2xl text-center'> {title}</p>
+        {isComplete ? (
+          <div className='flex flex-col items-center'>
+            <h2 className='mb-4'>Complete</h2>
+            <Image
+              height={164}
+              width={164}
+              alt={'complete'}
+              className='object-cover transition-all duration-500 ease-in-out transform hover:scale-105'
+              src={'/images/stories/checkmark.svg'}
+            ></Image>
           </div>
-          <div className='flex flex-col'>
-            {columnB.map((it, index) => (
-              <div key={index} onClick={(e) => onColumnBClick(it)}>
-                <MatchingWord text={it} state={getStateForWord(it)} />
-              </div>
-            ))}
+        ) : (
+          <div className='grid grid-cols-2'>
+            <div className='flex flex-col'>
+              {columnA.map((it, index) => (
+                <div key={index} onClick={(e) => onColumnAClick(it)}>
+                  <MatchingWord text={it} state={getStateForWord(it)} />
+                </div>
+              ))}
+            </div>
+            <div className='flex flex-col'>
+              {columnB.map((it, index) => (
+                <div key={index} onClick={(e) => onColumnBClick(it)}>
+                  <MatchingWord text={it} state={getStateForWord(it)} />
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
