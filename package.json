@@ -20,6 +20,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@google-cloud/translate": "^6.3.1",
     "@reduxjs/toolkit": "^1.8.2",
     "@tailwindcss/forms": "0.3.4",
     "airtable": "0.11.1",
@@ -52,7 +53,7 @@
     "eslint-plugin-simple-import-sort": "7.0.0",
     "husky": "7.0.0",
     "identity-obj-proxy": "3.0.0",
-    "jest": "27.3.1",
+    "jest": "^27.3.1",
     "lint-staged": "11.2.6",
     "next-sitemap": "1.6.203",
     "postcss": "8.3.11",
