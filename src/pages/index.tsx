@@ -9,6 +9,7 @@ import Seo from '@/components/Seo';
 
 import { categories, categories_photos } from './api/categories';
 import { getData, Listing } from './api/search_results';
+import Navbar from '@/components/Navbar';
 
 ///Pass in the data from staticProps once implemented
 export default function HomePage() {
@@ -41,25 +42,7 @@ export default function HomePage() {
       {/* <Seo templateTitle='Home' /> */}
       <Seo />
 
-      <nav>
-        <div className='flex justify-center '>
-          <Link href='/' passHref>
-            <p className='p-4 ml-4 font-bold border-b-4 border-white cursor-pointer hover:border-rattata-500 hover:bg-charmander hover:text-white'>
-              Directory
-            </p>
-          </Link>
-          <Link href='/stories' passHref>
-            <p className='p-4 ml-4 font-bold border-b-4 border-white cursor-pointer hover:border-rattata-500 hover:bg-charmander hover:text-white'>
-              Stories
-            </p>
-          </Link>
-          <Link href='/videos' passHref>
-            <p className='p-4 ml-4 font-bold border-b-4 border-white cursor-pointer hover:border-rattata-500 hover:bg-charmander hover:text-white'>
-              Videos
-            </p>
-          </Link>
-        </div>
-      </nav>
+      <Navbar />
       <main>
         <section className='bg-gray-200'>
           <div className='flex flex-col items-center justify-center min-h-screen text-center '>

@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { createClient } from 'next-sanity';
 import React from 'react';
 
+import Navbar from '@/components/Navbar';
+
 interface PageProps {
   storyListData: any;
 }
@@ -10,6 +12,8 @@ interface PageProps {
 const StoriesHomePage = ({ storyListData }: PageProps) => {
   return (
     <div className='flex flex-col w-full h-screen bg-gray-200'>
+      <Navbar />
+
       <div className='sticky z-10 w-full p-4 bg-white shadow-md'>
         <div className='py-4 font-bold '>
           <h1 className='text-3xl text-center'>Stories</h1>

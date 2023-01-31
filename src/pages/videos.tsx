@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ReactPlayer from 'react-player/youtube';
 
+import Navbar from '@/components/Navbar';
+
 import {
   getSubtitlesEnglish,
   getSubtitlesTamil,
@@ -78,101 +80,111 @@ const Learn = () => {
 
   return (
     <>
-      <div className='w-full p-4 font-bold bg-blue-200'>Learn Thamizh</div>
-      <div className='w-full '>
-        <ReactPlayer
-          playing={true}
-          ref={playerRef}
-          width={'100%'}
-          url='https://www.youtube.com/watch?v=9UiTj9c3H54'
-          onProgress={handleOnProgress}
-          controls={true}
-        />
+      <Navbar />
 
-        <div className='bg-gray-200 flex px-4 py-4 gap-2 w-full'>
-          <div className='flex justify-around w-full'>
-            <div
-              onClick={handleThamizhClick}
-              className={`hover:bg-red-200 text-lg p-2 flex cursor-pointer flex-col justify-center rounded-lg max-w-xs text-center break-words align-middle ${
-                isThamizhVisible ? 'bg-red-400' : 'bg-red-200'
-              }`}
-            >
-              <p>தமிழ்</p>
-            </div>
-            <div
-              onClick={handleTransliterationClick}
-              className={`hover:bg-green-200 text-lg p-2 flex cursor-pointer flex-col justify-center rounded-lg max-w-xs text-center break-words align-middle ${
-                isTransliterationVisible ? 'bg-green-400' : 'bg-green-200'
-              }`}
-            >
-              <p>Transliteration</p>
-            </div>
-            <div
-              onClick={handleTranslationClick}
-              className={`hover:bg-blue-200 text-lg p-2 flex cursor-pointer flex-col justify-center rounded-lg max-w-xs text-center break-words align-middle ${
-                isTranslationhVisible ? 'bg-blue-400' : 'bg-blue-200'
-              }`}
-            >
-              <p>English</p>
-            </div>{' '}
-            <div
-              className={`flex p-2 items-center cursor-pointer  focus:border-2 hover:bg-purple-200  focus:border-purple-700 justify-center  rounded-xl ${
-                isLoop ? 'bg-purple-200' : 'bg-purple-400'
-              }`}
-              onClick={handleLoopClick}
-            >
-              <p>Loop</p>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                className='h-6 w-6'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='2'
-                  d='M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15'
-                />
-              </svg>
-            </div>
-          </div>
+      <div className='sticky z-10 w-full p-4 bg-white shadow-md'>
+        <div className='py-4 font-bold '>
+          <h1 className='text-3xl text-center'>Music Videos</h1>
         </div>
-        {subTitlesTamil &&
-          subTitlesTamil[currentIndex] &&
-          subTitlesTrans &&
-          subTitlesTrans[currentIndex] &&
-          subTitlesEnglish &&
-          subTitlesEnglish[currentIndex] && (
-            <div className='flex-wrap p-4 md:m-4  md:text-xl bg-gray-100 rounded-md shadow-md h-screen font-mono'>
-              <div>
-                {isThamizhVisible && (
-                  <div className='flex flex-row m-2'>
-                    <p className='w-full m-2 text-red-900 text-xl'>
-                      {subTitlesTamil[currentIndex].text}
-                    </p>
-                  </div>
-                )}
-                {isTransliterationVisible && (
-                  <div className='flex flex-row m-2'>
-                    {' '}
-                    <p className='w-full m-2 text-green-900'>
-                      {subTitlesTrans[currentIndex].text}
-                    </p>
-                  </div>
-                )}
-                {isTranslationhVisible && (
-                  <div className='flex flex-row m-2'>
-                    {' '}
-                    <p className='w-full m-2 text-blue-900'>
-                      {subTitlesEnglish[currentIndex].text}
-                    </p>
-                  </div>
-                )}
+      </div>
+      <div className='bg-blue-900'>
+        <div className='w-full bg-gray-200 '>
+          <div className='overflow-hidden border-0 border-blue-300 sm:p-4 sm:rounded-xl'>
+            <ReactPlayer
+              playing={true}
+              ref={playerRef}
+              width={'100%'}
+              url='https://www.youtube.com/watch?v=9UiTj9c3H54'
+              onProgress={handleOnProgress}
+              controls={true}
+            />
+          </div>
+
+          <div className='flex w-full gap-2 px-4 py-4 '>
+            <div className='flex justify-around w-full'>
+              <div
+                onClick={handleThamizhClick}
+                className={`hover:bg-red-200 text-lg p-2 flex cursor-pointer flex-col justify-center rounded-lg max-w-xs text-center break-words align-middle ${
+                  isThamizhVisible ? 'bg-red-400' : 'bg-red-200'
+                }`}
+              >
+                <p>தமிழ்</p>
+              </div>
+              <div
+                onClick={handleTransliterationClick}
+                className={`hover:bg-green-200 text-lg p-2 flex cursor-pointer flex-col justify-center rounded-lg max-w-xs text-center break-words align-middle ${
+                  isTransliterationVisible ? 'bg-green-400' : 'bg-green-200'
+                }`}
+              >
+                <p>Transliteration</p>
+              </div>
+              <div
+                onClick={handleTranslationClick}
+                className={`hover:bg-blue-200 text-lg p-2 flex cursor-pointer flex-col justify-center rounded-lg max-w-xs text-center break-words align-middle ${
+                  isTranslationhVisible ? 'bg-blue-400' : 'bg-blue-200'
+                }`}
+              >
+                <p>English</p>
+              </div>{' '}
+              <div
+                className={`flex p-2 items-center cursor-pointer  focus:border-2 hover:bg-purple-200  focus:border-purple-700 justify-center  rounded-xl ${
+                  isLoop ? 'bg-purple-200' : 'bg-purple-400'
+                }`}
+                onClick={handleLoopClick}
+              >
+                <p>Loop</p>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  className='w-6 h-6'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  stroke='currentColor'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth='2'
+                    d='M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15'
+                  />
+                </svg>
               </div>
             </div>
-          )}
+          </div>
+          {subTitlesTamil &&
+            subTitlesTamil[currentIndex] &&
+            subTitlesTrans &&
+            subTitlesTrans[currentIndex] &&
+            subTitlesEnglish &&
+            subTitlesEnglish[currentIndex] && (
+              <div className='flex-wrap h-screen p-4 font-mono bg-gray-900 border-2 border-blue-300 rounded-md shadow-md md:m-4 md:text-xl'>
+                <div>
+                  {isThamizhVisible && (
+                    <div className='flex flex-row m-2'>
+                      <p className='w-full p-4 m-2 text-xl text-red-500 bg-white rounded'>
+                        {subTitlesTamil[currentIndex].text}
+                      </p>
+                    </div>
+                  )}
+                  {isTransliterationVisible && (
+                    <div className='flex flex-row m-2'>
+                      {' '}
+                      <p className='w-full p-4 m-2 text-green-500 bg-white rounded'>
+                        {subTitlesTrans[currentIndex].text}
+                      </p>
+                    </div>
+                  )}
+                  {isTranslationhVisible && (
+                    <div className='flex flex-row m-2'>
+                      {' '}
+                      <p className='w-full p-4 m-2 text-blue-500 bg-white rounded'>
+                        {subTitlesEnglish[currentIndex].text}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+        </div>
       </div>
     </>
   );
