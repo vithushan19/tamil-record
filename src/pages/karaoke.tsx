@@ -7,7 +7,7 @@ const captions = [
     transliteration: '...Whoa Whoa Whoa... Whoa Whoa Whoa... Whoa Whoa Whoa...',
     timestamp: 0,
   },
-  { transliteration: 'Idhazhin Oru Oram', timestamp: 17 },
+  { transliteration: 'Idhazhin Oru Oram', timestamp: 16.75 },
   { transliteration: 'Sirithaai Anbe', timestamp: 21 },
   { transliteration: 'Nijamaai Ithu Pothum', timestamp: 25 },
   { transliteration: 'Siripaal Anbe', timestamp: 30 },
@@ -110,11 +110,15 @@ export default function KaraokePage() {
     }
   }, []);
 
-  const handleTimeUpdate = () => {
-    if (audioRef.current) {
-      setCurrentTime(audioRef.current.currentTime);
-    }
-  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (audioRef.current) {
+        setCurrentTime(audioRef.current.currentTime);
+      }
+    }, 100); // Poll every 100ms
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handlePlayPause = () => {
     if (audioRef.current) {
@@ -178,8 +182,7 @@ export default function KaraokePage() {
         <audio
           ref={audioRef}
           src={useInstrumental ? instrumentalAudioSrc : audioSrc}
-          onTimeUpdate={handleTimeUpdate}
-          preload='metadata'
+          preload='auto'
         />
         <div>
           <button onClick={handlePlayPause}>
