@@ -19,6 +19,11 @@ export default function Navbar() {
             Videos
           </p>
         </Link>
+        <Link href='/karaoke' passHref>
+          <p className='p-4 ml-4 font-bold border-b-4 border-white cursor-pointer hover:border-rattata-500 hover:bg-charmander hover:text-white'>
+            Karaoke
+          </p>
+        </Link>
       </div>
     </nav>
   );
