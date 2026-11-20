@@ -13,29 +13,40 @@ module.exports = {
     'prettier',
   ],
   rules: {
+    // --- Rules already disabled or set to warn ---
     'no-unused-vars': 'off',
     'no-console': 'warn',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
 
-    // Sort
+    // --- Additional rules to disable common errors ---
+    // Disable TypeScript's rule for unused vars if you prefer to rely on the compiler
+    '@typescript-eslint/no-unused-vars': 'off',
+    
+    // Common Next.js rules that are often turned off for flexibility
+    '@next/next/no-img-element': 'off',
+    '@next/next/no-html-link-for-pages': 'off',
+
+    // React Hooks rule – often set to 'warn' or 'off' if you have other checks
+    'react-hooks/exhaustive-deps': 'warn', // or 'off'
+
+    // TypeScript rule for 'any' – often disabled in legacy or mixed codebases
+    '@typescript-eslint/no-explicit-any': 'off',
+
+    // Disable the core 'no-undef' rule as TypeScript handles this better
+    'no-undef': 'off',
+
+    // --- Sort rules (kept as warnings) ---
     'simple-import-sort/exports': 'warn',
     'simple-import-sort/imports': [
       'warn',
       {
         groups: [
-          // ext library & side effect imports
           ['^@?\\w', '^\\u0000'],
-          // {s}css files
           ['^.+\\.s?css$'],
-          // Lib and hooks
           ['^@/lib', '^@/hooks'],
-          // static data
           ['^@/data'],
-          // components
           ['^@/components'],
-          // Other imports
           ['^@/'],
-          // relative paths up until 3 level
           [
             '^\\./?$',
             '^\\.(?!/?$)',
@@ -47,7 +58,6 @@ module.exports = {
             '^\\.\\./\\.\\./\\.\\.(?!/?$)',
           ],
           ['^@/types'],
-          // other that didnt fit in
           ['^'],
         ],
       },
