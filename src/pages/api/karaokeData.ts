@@ -1,0 +1,81 @@
+export const KARAOKE_DATA = [
+  {
+    transliteration: '...Whoa Whoa Whoa... Whoa Whoa Whoa... Whoa Whoa Whoa...',
+    timestamp: 0,
+  },
+  { transliteration: 'Idhazhin Oru Oram', timestamp: 16.75 },
+  { transliteration: 'Sirithaai Anbe', timestamp: 21 },
+  { transliteration: 'Nijamaai Ithu Pothum', timestamp: 25 },
+  { transliteration: 'Siripaal Anbe', timestamp: 30 },
+  { transliteration: 'En Naadiyai Silirka Vaithai', timestamp: 34 },
+  { transliteration: 'En Iravellam Velicham Thanthaai', timestamp: 38.5 },
+  {
+    transliteration: 'En Aan Karvam Maranthinru Un Munne Paniya Vaithai',
+    timestamp: 42.5,
+  },
+  {
+    transliteration: '... ... ...',
+    timestamp: 48,
+  },
+  {
+    transliteration: '...Whoa Whoa Whoa... Whoa Whoa Whoa... Whoa Whoa Whoa...',
+    timestamp: 62,
+  },
+  { transliteration: 'Sollu Nee I Love You', timestamp: 82.5 },
+  { transliteration: 'Ne Thaan En Kurunji Poo', timestamp: 85.5 },
+  { transliteration: 'En Kadhal Enrum True', timestamp: 88 },
+  { transliteration: 'Will Make Sure You’ll Never Feel Blue!', timestamp: 90 },
+  { transliteration: '... ... ...', timestamp: 93 },
+  { transliteration: 'Oh..ellam Maranthu Un Pinne Varuven', timestamp: 100 },
+  {
+    transliteration: 'Ne Sammathithaal Naan Nilavayum Tharuven',
+    timestamp: 105.5,
+  },
+  {
+    transliteration: 'Un Nizhal Tharai Padum Dhooram Nadanthen',
+    timestamp: 110,
+  },
+  {
+    transliteration: 'Antha Nodiyai Thaan Kavithai Varainthen',
+    timestamp: 114.5,
+  },
+  { transliteration: 'Oh Penne En Kanne', timestamp: 118.5 },
+  { transliteration: 'Senthene Vaa Munne', timestamp: 121 },
+  { transliteration: 'En Uyirukul Peyarai Vaithai', timestamp: 122.5 },
+  { transliteration: 'En Naadiyai Silirka Vaithai', timestamp: 127 },
+  { transliteration: 'En Iravellam Velicham Thanthaai', timestamp: 131 },
+  {
+    transliteration: 'En Aan Karvam Maranthinru Un Munne Paniya Vaithai',
+    timestamp: 135.5,
+  },
+  { transliteration: '... ... ...', timestamp: 141 },
+
+  { transliteration: 'Oh Penne En Kanne', timestamp: 157.5 },
+  { transliteration: 'Senthene Vaa Munne', timestamp: 160 },
+  { transliteration: 'En Uyirukul Peyarai Vaithai', timestamp: 162.5 },
+  { transliteration: 'Oh Penne En Kanne', timestamp: 167 },
+  { transliteration: 'Senthene Vaa Munne', timestamp: 169.5 },
+  { transliteration: 'En Uyirukul Peyarai Vaithai', timestamp: 172 },
+  { transliteration: 'Sollu Nee I Love You', timestamp: 177 },
+  { transliteration: 'Ne Thaan En Kurunji Poo', timestamp: 179.25 },
+  { transliteration: 'En Kadhal Enrum True', timestamp: 181.8 },
+  {
+    transliteration: 'Will Make Sure You’ll Never Feel Blue!',
+    timestamp: 183.25,
+  },
+  { transliteration: '(Oh Penne) Sollu Nee I Love You', timestamp: 185 },
+  { transliteration: 'Ne Thaan En Kurunji Poo', timestamp: 188.25 },
+  { transliteration: '(Oh Penne) En Kadhal Enrum True', timestamp: 190 },
+  {
+    transliteration: 'Will Make Sure You’ll Never Feel Blue!',
+    timestamp: 192.25,
+  },
+  {
+    transliteration: 'Oh Penne',
+    timestamp: 194.25,
+  },
+  {
+    transliteration: '... ... ...',
+    timestamp: 197.25,
+  },
+];

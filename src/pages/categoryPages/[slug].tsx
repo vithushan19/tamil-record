@@ -2,64 +2,90 @@ import { useRouter } from 'next/router';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
-import { CategoryCard } from '@/components/categories/CategoryCard';
 import Layout from '@/components/layout/Layout';
 import CustomLink from '@/components/links/CustomLink';
 import Seo from '@/components/Seo';
 
 import { category_specific_photos } from '../api/categories';
-import { getCategoryData, Listing } from '../api/search_results';
+import { getCategoryData } from '../api/search_results';
+import { BusinessListing, BusinessCard } from '@/components/categories/BusinessCard';
 
-///Pass in the data from staticProps once implemented
 export default function CategoryPage() {
   const router = useRouter();
-  const categoryPageName = router.query.slug;
-  const [businessByCategoryData, setBusinessByCategoryData] = useState<
-    Listing[]
-  >([]);
-  const [isLoading, setLoading] = useState(false);
+  // slug is undefined until the router is ready; it can also be string[]
+  const slug = router.query.slug;
+  const categoryPageName = Array.isArray(slug) ? slug[0] : slug;
 
-  //If getStaticProps is defined, this is not needed
+  const [businesses, setBusinesses] = useState<BusinessListing[]>([]);
+  const [isLoading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
+    if (!router.isReady || !categoryPageName) return;
+
+    let cancelled = false;
     async function onPageLoad() {
       setLoading(true);
-
-      const data = await getCategoryData(categoryPageName as string);
-
-      setBusinessByCategoryData(data as Listing[]);
-      setLoading(false);
+      setError(null);
+      try {
+        const data = (await getCategoryData(
+          categoryPageName as string
+        )) as BusinessListing[];
+        if (!cancelled) setBusinesses(data ?? []);
+      } catch {
+        if (!cancelled) setError('We could not load this category. Try again.');
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
     }
     onPageLoad();
-  }, [categoryPageName]);
+
+    // Prevents a slow earlier request from overwriting a newer category
+    return () => {
+      cancelled = true;
+    };
+  }, [router.isReady, categoryPageName]);
+
+  const fallbackImage = category_specific_photos(categoryPageName as string);
 
   return (
     <Layout>
-      {/* <Seo templateTitle='Home' /> */}
-      <Seo />
+      <Seo
+        templateTitle={categoryPageName}
+        description={`Tamil-owned businesses in the ${categoryPageName} category.`}
+      />
 
       <main>
         <section className='bg-dark'>
-          <div className='flex flex-col items-center justify-center min-h-screen text-center layout'>
+          <div className='flex flex-col items-center min-h-screen py-8 text-center layout'>
             <h1 className='p-8 text-white'>{categoryPageName}</h1>
-            <div className='mt-4'>
-              {isLoading ? (
-                <p className='text-white'>Loading...</p>
-              ) : (
-                <div className='grid grid-cols-4 gap-4 mt-4'>
-                  {businessByCategoryData.map((listing, index) => (
-                    <CategoryCard
-                      key={index}
-                      title={listing.name}
-                      image_path={category_specific_photos(
-                        categoryPageName as string
-                      )}
-                      route_path={'/categoryPages/' + listing.name}
+
+            {isLoading && <p className='text-white'>Loading...</p>}
+
+            {error && <p className='text-red-400'>{error}</p>}
+
+            {!isLoading && !error && businesses.length === 0 && (
+              <p className='text-white'>No businesses listed in this category yet.</p>
+            )}
+
+            {!isLoading && !error && businesses.length > 0 && (
+              <>
+                <p className='mb-4 text-gray-400'>
+                  {businesses.length} listing{businesses.length === 1 ? '' : 's'}
+                </p>
+                <div className='grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+                  {businesses.map((listing) => (
+                    <BusinessCard
+                      key={listing.Name}
+                      listing={listing}
+                      fallbackImage={fallbackImage}
                     />
                   ))}
                 </div>
-              )}
-            </div>
-            <div className='p-4 text-white'>
+              </>
+            )}
+
+            <div className='p-4 mt-auto text-white'>
               © {new Date().getFullYear()} By{' '}
               <CustomLink href='https://skillify.ca'>Skillify</CustomLink>
             </div>

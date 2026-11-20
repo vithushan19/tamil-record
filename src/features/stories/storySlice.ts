@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { State } from '@/app/store';
-import { StoryData } from '@/pages/story/[slug]';
+import { StoryData } from '@/pages/stories/[slug]';
 
 export interface StoryState {
   currentStep: number;

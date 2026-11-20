@@ -11,7 +11,7 @@ export const categories = [
   'DJ',
   'Decor and Flowers',
   'Clothes and Fashion',
-  'Banquet Halls',
+  'Banquet Hall',
   'Bakers',
 ];
 
