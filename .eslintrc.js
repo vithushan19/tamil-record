@@ -35,6 +35,10 @@ module.exports = {
     // Disable the core 'no-undef' rule as TypeScript handles this better
     'no-undef': 'off',
 
+    // disable no-empty-function rule
+    'no-empty-function': 'off',
+    '@typescript-eslint/no-empty-function': 'off',
+
     // --- Sort rules (kept as warnings) ---
     'simple-import-sort/exports': 'warn',
     'simple-import-sort/imports': [
