@@ -24,6 +24,11 @@ export default function Navbar() {
             Karaoke
           </p>
         </Link>
+        <Link href='/listening-club' passHref>
+          <p className='p-4 ml-4 font-bold border-b-4 border-white cursor-pointer hover:border-rattata-500 hover:bg-charmander hover:text-white'>
+            Listening Club
+          </p>
+        </Link>
       </div>
     </nav>
   );
