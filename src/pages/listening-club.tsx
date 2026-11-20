@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
 import Navbar from '@/components/Navbar';
-import { KARAOKE_DATA } from './api/karaokeData';
 import { NOV19_Meiyazhagan } from './api/listeningClub/NOV19_Meiyazhagan';
 
 const formatTime = (s: number) => {
@@ -13,7 +12,7 @@ const formatTime = (s: number) => {
   return h > 0 ? `${h}:${pad(m)}:${pad(sec)}` : `${m}:${pad(sec)}`;
 };
 
-export default function KaraokePage() {
+export default function ListeningClubPage() {
   const captions = NOV19_Meiyazhagan;
   const audioSrc = '/audio/listening-club/19 Nov Meiyazhagan.mp3';
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -26,13 +25,16 @@ export default function KaraokePage() {
   const [volume, setVolume] = useState<number>(1);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
+  // Loop state
+  const [isLooping, setIsLooping] = useState<boolean>(false);
+  const [loopAnchorIndex, setLoopAnchorIndex] = useState<number | null>(null);
+
   // Keep the audio element's volume in sync
   useEffect(() => {
     if (audioRef.current) audioRef.current.volume = volume;
   }, [volume]);
 
-  // Attach media listeners. Re-runs when the source switches so we can
-  // restore position + play state.
+  // Attach media listeners
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -56,7 +58,6 @@ export default function KaraokePage() {
     audio.addEventListener('play', onPlay);
     audio.addEventListener('pause', onPause);
 
-    // Metadata may already be cached
     if (audio.readyState >= 1) onLoaded();
 
     return () => {
@@ -66,13 +67,37 @@ export default function KaraokePage() {
     };
   }, []);
 
-  // Poll currentTime at 100ms for the caption + progress bar
+  // Poll currentTime at 100ms — also drives the loop rewind
   useEffect(() => {
     const interval = setInterval(() => {
-      if (audioRef.current) setCurrentTime(audioRef.current.currentTime);
+      const audio = audioRef.current;
+      if (!audio) return;
+      const t = audio.currentTime;
+
+      // ── Loop rewind ──────────────────────────────────────────
+      if (isLooping && loopAnchorIndex !== null) {
+        const anchor = captions[loopAnchorIndex];
+        const next = captions[loopAnchorIndex + 1];
+        const endTime = next?.timestamp ?? audio.duration;
+
+        if (
+          anchor &&
+          Number.isFinite(endTime) &&
+          endTime > 0 &&
+          t >= endTime - 0.02
+        ) {
+          const wasEnded = audio.ended;
+          audio.currentTime = anchor.timestamp;
+          setCurrentTime(anchor.timestamp);
+          if (wasEnded) audio.play().catch(() => { });
+          return;
+        }
+      }
+
+      setCurrentTime(t);
     }, 100);
     return () => clearInterval(interval);
-  }, []);
+  }, [isLooping, loopAnchorIndex, captions]);
 
   const handlePlayPause = () => {
     const audio = audioRef.current;
@@ -85,19 +110,49 @@ export default function KaraokePage() {
     setVolume(parseFloat(e.target.value));
   };
 
+  // Which caption a given time falls inside
+  const indexAtTime = (t: number) =>
+    captions.findIndex(
+      (caption, i) =>
+        t >= caption.timestamp &&
+        (i === captions.length - 1 || t < captions[i + 1].timestamp),
+    );
+
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
     const t = parseFloat(e.target.value);
     if (audioRef.current) audioRef.current.currentTime = t;
     setCurrentTime(t);
+    // If looped, move the anchor to the sentence the user just landed on
+    if (isLooping) {
+      const newIndex = indexAtTime(t);
+      if (newIndex >= 0) setLoopAnchorIndex(newIndex);
+    }
+  };
+
+  const handleToggleLoop = () => {
+    if (!isLooping) {
+      // Freeze whichever sentence is currently playing
+      const t = audioRef.current?.currentTime ?? 0;
+      const idx = indexAtTime(t);
+      if (idx >= 0) {
+        setLoopAnchorIndex(idx);
+        setIsLooping(true);
+      }
+    } else {
+      // Release the anchor — playback continues naturally
+      setIsLooping(false);
+      setLoopAnchorIndex(null);
+    }
+  };
+
+  const [isTranscriptVisible, setIsTranscriptVisible] = useState<boolean>(false);
+
+  const handleToggleTranscript = () => {
+    setIsTranscriptVisible((prev) => !prev);
   };
 
   // Caption lookup
-  const currentIndex = captions.findIndex(
-    (caption, i) =>
-      currentTime >= caption.timestamp &&
-      (i === captions.length - 1 ||
-        currentTime < captions[i + 1].timestamp),
-  );
+  const currentIndex = indexAtTime(currentTime);
   const currentCaption = captions[currentIndex];
   const nextStart = captions[currentIndex + 1]?.timestamp;
   const totalDuration =
@@ -134,7 +189,6 @@ export default function KaraokePage() {
           <p className='text-sm text-slate-400'>
             This listening club feature is provided for educational purposes only. All rights to the original audio and transcription belong to the original creator Tamil Language Centre.
           </p>
-          {/* link to the original creator */}
           <p className='mt-2 text-sm text-slate-400'>
             Original creator: <a href='https://www.tamillanguagecentre.com/' className='text-blue-500 hover:text-blue-500 underline'>Tamil Language Centre</a>
           </p>
@@ -142,12 +196,13 @@ export default function KaraokePage() {
             Support them by purchasing products on their website or donating to their gofundme.
           </p>
         </section>
+
         {/* Song card */}
         <section className='rounded-3xl border border-white/5 bg-slate-900/50 p-6 shadow-2xl shadow-black/30 backdrop-blur-sm'>
           <div className='flex items-center gap-4'>
             <img
               src='/audio/listening-club/TLClogocircle.avif'
-              alt='Idhazhin Oram album art'
+              alt='Tamil Language Centre logo'
               width={96}
               height={96}
               className='h-24 w-24 rounded-2xl object-cover shadow-lg shadow-black/40 ring-1 ring-white/10'
@@ -157,11 +212,7 @@ export default function KaraokePage() {
             </div>
           </div>
 
-          <audio
-            ref={audioRef}
-            src={audioSrc}
-            preload='auto'
-          />
+          <audio ref={audioRef} src={audioSrc} preload='auto' />
 
           {/* Progress */}
           <div className='mt-6'>
@@ -209,28 +260,76 @@ export default function KaraokePage() {
               </span>
             </div>
 
+            {/* Loop button */}
+            <button
+              type='button'
+              onClick={handleToggleLoop}
+              aria-pressed={isLooping}
+              aria-label={
+                isLooping
+                  ? `Stop looping line ${(loopAnchorIndex ?? 0) + 1}`
+                  : 'Loop current line'
+              }
+              className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-all ${isLooping
+                ? 'border-purple-400 bg-purple-500 text-white shadow-lg shadow-purple-500/30'
+                : 'border-white/10 bg-white/5 text-slate-400 hover:bg-white/10 hover:text-slate-200'
+                }`}
+            >
+              <LoopIcon />
+              {isLooping
+                ? `Looping line ${(loopAnchorIndex ?? 0) + 1}`
+                : 'Loop line'}
+            </button>
+
+            {/* Hide Transcript */}
+            <button
+              type='button'
+              onClick={handleToggleTranscript}
+              aria-pressed={isTranscriptVisible}
+              aria-label={
+                isTranscriptVisible
+                  ? 'Hide transcript'
+                  : 'Show transcript'
+              }
+              className='flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-all'
+            >
+              <TranscriptIcon />
+              {isTranscriptVisible ? 'Hide Transcript' : 'Show Transcript'}
+            </button>
           </div>
         </section>
 
         {/* Caption stage */}
-        <section className='relative overflow-hidden rounded-3xl border border-white/5 bg-slate-900/50 p-8 shadow-2xl shadow-black/30 backdrop-blur-sm md:p-12'>
-          <div className='flex min-h-[280px] flex-col items-center justify-center gap-2 text-center'>
-            {renderAdjacent(-3)}
-            {renderAdjacent(-2)}
-            {renderAdjacent(-1)}
+        {isTranscriptVisible && (
+          <section
+            className={`relative overflow-hidden rounded-3xl border bg-slate-900/50 p-8 shadow-2xl shadow-black/30 backdrop-blur-sm transition-colors md:p-12 ${isLooping ? 'border-violet-500/40' : 'border-white/5'
+              }`}
+          >
+            {isLooping && (
+              <div className='absolute right-4 top-4 flex items-center gap-1.5 rounded-full bg-violet-500/20 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-violet-300 ring-1 ring-violet-500/30'>
+                <LoopIcon className='h-3 w-3' />
+                Loop
+              </div>
+            )}
 
-            <div className='my-3 md:my-4'>
-              <ProgressiveHighlightingCaption
-                text={currentCaption?.text || ''}
-                highlightRatio={highlightRatio}
-              />
+            <div className='flex min-h-[280px] flex-col items-center justify-center gap-2 text-center'>
+              {renderAdjacent(-3)}
+              {renderAdjacent(-2)}
+              {renderAdjacent(-1)}
+
+              <div className='my-3 md:my-4'>
+                <ProgressiveHighlightingCaption
+                  text={currentCaption?.text || ''}
+                  highlightRatio={highlightRatio}
+                />
+              </div>
+
+              {renderAdjacent(1)}
+              {renderAdjacent(2)}
+              {renderAdjacent(3)}
             </div>
-
-            {renderAdjacent(1)}
-            {renderAdjacent(2)}
-            {renderAdjacent(3)}
-          </div>
-        </section>
+          </section>
+        )}
       </main>
     </div>
   );
@@ -312,6 +411,44 @@ function VolumeIcon() {
         strokeLinecap='round'
         strokeLinejoin='round'
         d='M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M6 9v6h3l4 4V5L9 9H6z'
+      />
+    </svg>
+  );
+}
+
+function LoopIcon({ className = 'h-4 w-4' }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      fill='none'
+      stroke='currentColor'
+      strokeWidth={2}
+      viewBox='0 0 24 24'
+      aria-hidden='true'
+    >
+      <path
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        d='M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15'
+      />
+    </svg>
+  );
+}
+
+function TranscriptIcon({ className = 'h-4 w-4' }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      fill='none'
+      stroke='currentColor'
+      strokeWidth={2}
+      viewBox='0 0 24 24'
+      aria-hidden='true'
+    >
+      <path
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        d='M8 16h8M8 12h8m-8-4h8M3 6h.01M3 12h.01M3 18h.01M21 6h.01M21 12h.01M21 18h.01'
       />
     </svg>
   );
